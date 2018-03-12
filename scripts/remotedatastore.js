@@ -26,15 +26,7 @@
     });
   };
 
-  // Get using id
   RemoteDataStore.prototype.get = function(key) {
-    $.get(this.serverUrl + "/" + key, function(serverResponse) {
-      console.log(serverResponse);
-    });
-  };
-
-  // Get using email
-  RemoteDataStore.prototype.getUsingEmail = function(key) {
     $.get(this.serverUrl + "?emailAddress=" + key, function(serverResponse) {
       console.log(serverResponse);
     });
