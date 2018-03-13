@@ -15,14 +15,34 @@
     var data = {};
     data["emailAddress"] = key;
     data["coffee"] = val;
-    $.post(this.serverUrl, data, function(serverResponse) {
-      console.log(serverResponse);
-    });
+    var test_datastore = new App.RemoteDataStore(this.serverUrl);
+    $.get(this.serverUrl, function(serverResponse) {
+      for (var i in serverResponse) {
+        if (serverResponse[i].emailAddress == key) {
+          $.post(this.serverUrl + "/" + serverResponse[i].id, data, function(serverResponse) {
+            console.log(serverResponse);
+          });
+          test_datastore.getAll();
+          return;
+        } else {
+          continue;
+        }
+      }
+      $.post(this.serverUrl, data, function(serverResponse) {
+        console.log(serverResponse);
+        test_datastore.getAll();
+      });
+    }.bind(this));
+
   };
 
   RemoteDataStore.prototype.getAll = function() {
     $.get(this.serverUrl, function(serverResponse) {
-      console.log(serverResponse);
+      // console.log(serverResponse);
+      var check_list = new App.CheckList("[data-coffee-order='checklist']");
+      for (var i = 0; i < serverResponse.length; i++) {
+        check_list.addRow(serverResponse[i].coffee);
+      }
     });
   };
 

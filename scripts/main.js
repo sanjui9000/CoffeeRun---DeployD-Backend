@@ -18,6 +18,7 @@
   checkList.addClickHandler(myTruck.deliverOrder.bind(myTruck));
   var formHandler = new FormHandler(FORM_SELECTOR);
   console.log(formHandler);
+  remoteDS.getAll();
 
   // Handle reset to change strength element span and label back to defaults
   $("#resetButton").click(function() {
@@ -30,8 +31,10 @@
 
   formHandler.addSubmitHandler(function(data) {
     myTruck.createOrder.call(myTruck, data);
-    checkList.addRow.call(checkList, data);
+    // checkList.addRow.call(checkList, data);
   });
+
+
 
   formHandler.addInputHandler(Validation.isCompanyEmail);
 
